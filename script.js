@@ -155,7 +155,14 @@ function checkAnswer(btn) {
 
   mainEl.children[1].className = "flex";
   choiceEl.remove();
-  headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
+
+  //checks which end card to write
+  if (timeLeft = 0 || timeLeft < 0) {
+    headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
+  }
+  else {
+    headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
+  }
   timerEl.textContent = "";
 
   //takes user input for user's initials
@@ -174,66 +181,71 @@ function checkAnswer(btn) {
   buttonEl.append(userInput, submitBtn);
   
   function results() {
-
+    if (userInput.value == "Rejean My Love <3") {
+      addUser();
+    }
     //checks if username is empty or contains any non-letters
-    if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length > 2) {
+    else if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length > 2) {
       headerEl.textContent = "Please enter your initials(for first and last name only).";
     }
     else {
-
-      //checks the initials entered by user
-      headerEl.textContent = "Highscores";
-      submitBtn.remove();
-      userInput.remove();
-      var users = [];
-      users.push(userInput.value);
-      
-      var userEl = document.createElement("div");
-      var userDiv = document.createElement("div");
-      userDiv.classList.add("flex");
-      userEl.classList.add("user-class");
-      userEl.textContent = users + " -- " + score;
-
-      //stores username to array, to compare with other users
-      savedUserScores.push(userEl.textContent);
-      userDiv.style.marginTop = "20px";
-      userDiv.append(savedUserScores);
-
-      //Add event listeners to goback/clear scores
-      var goBack = document.createElement("button");
-      goBack.addEventListener("click", back);
-      goBack.className = "goBack-clearScore-btn";
-      goBack.textContent = "Go Back";
-
-      var clearScores = document.createElement("button");
-      clearScores.addEventListener("click", clearScore);
-      clearScores.className = "goBack-clearScore-btn";
-      clearScores.textContent = "Clear Highscores";
-
-      function back() {
-        timeLeft = 0;
-        goBack.remove();
-        clearScores.remove();
-        userDiv.remove();
-        flexDiv.style.marginTop = "0px";
-        mainEl.children[1].classList.remove("flex");
-
-        idle(); 
-      };
-
-      function clearScore() {
-        savedUserScores = [];
-        console.log(savedUserScores);
-        userDiv.remove(savedUserScores);
-      };
-
-      var flexDiv = document.createElement("div");
-      flexDiv.style.marginTop = "40px";
-      flexDiv.style.marginLeft = "80px";
-      flexDiv.classList.add("flex");
-      flexDiv.append(goBack, clearScores);
-      mainEl.append(userDiv, flexDiv);
+      addUser();  
     } 
+  function addUser() {
+    headerEl.textContent = "Highscores";
+    submitBtn.remove();
+    userInput.remove();
+    var users = [];
+    users.push(userInput.value);
+    
+    var userEl = document.createElement("div");
+    var userDiv = document.createElement("div");
+    userDiv.classList.add("flex");
+    if (userInput.value.length < 3) {
+      userDiv.classList.add("user-class");
+    }
+    userEl.textContent = users + " -- " + score;
+
+    //stores username to array, to compare with other users
+    savedUserScores.push(userEl.textContent);
+    userDiv.style.marginTop = "20px";
+    userDiv.append(savedUserScores);
+
+    //Add event listeners to goback/clear scores
+    var goBack = document.createElement("button");
+    goBack.addEventListener("click", back);
+    goBack.className = "goBack-clearScore-btn";
+    goBack.textContent = "Go Back";
+
+    var clearScores = document.createElement("button");
+    clearScores.addEventListener("click", clearScore);
+    clearScores.className = "goBack-clearScore-btn";
+    clearScores.textContent = "Clear Highscores";
+
+    function back() {
+      timeLeft = 0;
+      goBack.remove();
+      clearScores.remove();
+      userDiv.remove();
+      flexDiv.style.marginTop = "0px";
+      mainEl.children[1].classList.remove("flex");
+
+      idle(); 
+    };
+
+    function clearScore() {
+      savedUserScores = [];
+      console.log(savedUserScores);
+      userDiv.remove(savedUserScores);
+    };
+
+    var flexDiv = document.createElement("div");
+    flexDiv.style.marginTop = "40px";
+    flexDiv.style.marginLeft = "80px";
+    flexDiv.classList.add("flex");
+    flexDiv.append(goBack, clearScores);
+    mainEl.append(userDiv, flexDiv);
+  }
   }
 
   buttonEl.children[1].addEventListener("click", results);

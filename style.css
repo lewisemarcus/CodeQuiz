@@ -118,7 +118,7 @@ button {
   text-align: center;
   color: hsl(206, 16%, 17%);
   font-size: 18px;
-  width: 200px;
+  text-transform: uppercase;
 }
 .submit-btn {
   display: inline-block;

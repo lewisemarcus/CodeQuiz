@@ -49,7 +49,7 @@ function idle(){
   startBtn.textContent = "START!";
   startBtn.addEventListener("click", startGame);
   var flexStart = document.createElement("div");
-  flexStart.classList.add("flex", "row", "justify-center");
+  flexStart.classList.add("flex", "justify-center");
   flexStart.append(startBtn);
   mainEl.append(flexStart);
 }
@@ -161,12 +161,12 @@ function checkAnswer(btn) {
   //takes user input for user's initials
   var userInput = document.createElement("input");
   userInput.type = "text";
-  userInput.classList.add("user-input", "row");
+  userInput.classList.add("user-input");
   userInput.placeholder = "Enter initials...";
   userInput.style.marginTop = "15px";
 
   var submitBtn = document.createElement("button");
-  submitBtn.classList.add("submit-btn", "row");
+  submitBtn.classList.add("submit-btn");
   submitBtn.textContent = "Submit";
   submitBtn.style.marginTop = "15px";
   
@@ -190,7 +190,7 @@ function checkAnswer(btn) {
       
       var userEl = document.createElement("div");
       var userDiv = document.createElement("div");
-      userDiv.classList.add("flex", "row", "justify-center");
+      userDiv.classList.add("flex");
       userEl.classList.add("user-class");
       userEl.textContent = users + " -- " + score;
 
@@ -202,12 +202,12 @@ function checkAnswer(btn) {
       //Add event listeners to goback/clear scores
       var goBack = document.createElement("button");
       goBack.addEventListener("click", back);
-      goBack.className = "submit-btn";
+      goBack.className = "goBack-clearScore-btn";
       goBack.textContent = "Go Back";
 
       var clearScores = document.createElement("button");
       clearScores.addEventListener("click", clearScore);
-      clearScores.className = "submit-btn";
+      clearScores.className = "goBack-clearScore-btn";
       clearScores.textContent = "Clear Highscores";
 
       function back() {
@@ -229,7 +229,8 @@ function checkAnswer(btn) {
 
       var flexDiv = document.createElement("div");
       flexDiv.style.marginTop = "40px";
-      flexDiv.classList.add("row", "flex", "justify-center");
+      flexDiv.style.marginLeft = "80px";
+      flexDiv.classList.add("flex");
       flexDiv.append(goBack, clearScores);
       mainEl.append(userDiv, flexDiv);
     } 

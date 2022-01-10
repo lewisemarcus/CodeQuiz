@@ -1,3 +1,5 @@
+//TODO: make right/wrong disappear shortly after
+
 var startBtn = document.querySelector("#start");
 var timerEl = document.getElementById('timer');
 var mainEl = document.getElementById('main');
@@ -148,11 +150,32 @@ function checkAnswer(btn) {
     }
     console.log(choiceEl.textContent);
     changeQuestion();
+    answerTimer();
     btn.stopPropagation(); 
+};
+
+function answerTimer() {
+  var checkTime = 2;
+  var timeInterval = setInterval(function() {
+    if (headerEl.textContent === "") {
+      clearInterval(timeInterval);
+      choiceEl.remove(); 
+    }
+    if (checkTime > 1) {
+      checkTime--;
+    }
+    else if (checkTime === 1) {
+      checkTime--;
+    } 
+    else {
+      clearInterval(timeInterval);
+      choiceEl.remove();
+    }
+    console.log(checkTime);
+  }, 300);
 };    
 
   function displayEndMsg() {
-
   mainEl.children[1].className = "flex";
   choiceEl.remove();
 

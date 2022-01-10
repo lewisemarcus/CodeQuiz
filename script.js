@@ -66,8 +66,7 @@ function timer() {
       displayEndMsg();
     }
     if(answers[i] === undefined) {
-      clearInterval(timeInterval);
-      buttonEl.removeChild(answerList);
+      clearInterval(timeInterval);  
       displayEndMsg();
     }
     if (timeLeft > 1) {
@@ -211,7 +210,9 @@ function answerTimer() {
     }
     else {
       addUser();  
-    } 
+    };
+
+   //Add users to empty array 
   function addUser() {
     headerEl.textContent = "Highscores";
     submitBtn.remove();
@@ -224,7 +225,7 @@ function answerTimer() {
     userDiv.classList.add("flex");
     if (userInput.value.length < 3) {
       userDiv.classList.add("user-class");
-    }
+    };
     userEl.textContent = users + " -- " + score;
 
     //stores username to array, to compare with other users
@@ -256,7 +257,6 @@ function answerTimer() {
 
     function clearScore() {
       savedUserScores = [];
-      console.log(savedUserScores);
       userDiv.remove(savedUserScores);
     };
 
@@ -266,8 +266,8 @@ function answerTimer() {
     flexDiv.classList.add("flex");
     flexDiv.append(goBack, clearScores);
     mainEl.append(userDiv, flexDiv);
-  }
-  }
+  };
+};
 
   buttonEl.children[1].addEventListener("click", results);
 };

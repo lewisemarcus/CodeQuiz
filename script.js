@@ -175,7 +175,7 @@ function answerTimer() {
 
   function displayEndMsg() {
   mainEl.children[1].className = "flex";
-  choiceEl.remove();
+  answerTimer();
 
   //checks which end card to write
   if (timeLeft = 0 || timeLeft < 0) {

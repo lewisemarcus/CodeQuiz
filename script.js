@@ -80,10 +80,10 @@ function timer() {
 function startGame() {
     startBtn.remove();
     timeLeft = 60;
+    loadQuestion(i);
     timer();
     i=0;
     score = 0;
-    loadQuestion(i);
       
     //add event listeners to each button to change question and check answer
     //NOTE: the object adding eventlisteners are passed through function called  
@@ -223,7 +223,7 @@ function answerTimer() {
     //stores username to array, to compare with other users
     savedUserScores.push(userEl.textContent);
     userDiv.style.marginTop = "20px";
-    userDiv.append(savedUserScores);
+    userDiv.append(savedUserScores.join('\r\n'));
 
     //Add event listeners to goback/clear scores
     var goBack = document.createElement("button");

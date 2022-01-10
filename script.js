@@ -148,18 +148,17 @@ function checkAnswer(btn) {
         mainEl.appendChild(choiceEl);
         timeLeft = timeLeft - 10;
     }
-    console.log(choiceEl.textContent);
-    changeQuestion();
     answerTimer();
+    changeQuestion();
     btn.stopPropagation(); 
 };
 
+//Timer function for the checkAnswer result
 function answerTimer() {
   var checkTime = 2;
   var timeInterval = setInterval(function() {
     if (headerEl.textContent === "") {
-      clearInterval(timeInterval);
-      choiceEl.remove(); 
+      checkTime--; 
     }
     if (checkTime > 1) {
       checkTime--;
@@ -171,7 +170,6 @@ function answerTimer() {
       clearInterval(timeInterval);
       choiceEl.remove();
     }
-    console.log(checkTime);
   }, 300);
 };    
 

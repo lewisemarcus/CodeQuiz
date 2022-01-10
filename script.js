@@ -60,16 +60,7 @@ function idle(){
 //Once a condition for the end game message is met, then displayEndMsg runs
 function timer() {
   var timeInterval = setInterval(function() {
-    if (headerEl.textContent === "") {
-      clearInterval(timeInterval);
-      buttonEl.removeChild(answerList);
-      displayEndMsg();
-    }
-    if(answers[i] === undefined) {
-      clearInterval(timeInterval);  
-      displayEndMsg();
-    }
-    if (timeLeft > 1) {
+     if (timeLeft > 1) {
       timerEl.textContent = timeLeft + ' seconds remaing.'
       timeLeft--;
     }
@@ -99,8 +90,8 @@ function startGame() {
     for (var j = 0; j < buttons.length; j++) {
       buttons[j].style.width = "100px";
       buttons[j].addEventListener("click", checkAnswer); 
-    };
-};  
+    }
+}  
 
 function loadQuestion(v) {
 
@@ -147,10 +138,11 @@ function checkAnswer(btn) {
         mainEl.appendChild(choiceEl);
         timeLeft = timeLeft - 10;
     }
+    choiceEl.classList.add("answer-style", "flex", "justify-center");
     answerTimer();
     changeQuestion();
     btn.stopPropagation(); 
-};
+}
 
 //Timer function for the checkAnswer result
 function answerTimer() {
@@ -170,7 +162,7 @@ function answerTimer() {
       choiceEl.remove();
     }
   }, 300);
-};    
+}    
 
   function displayEndMsg() {
   mainEl.children[1].className = "flex";
@@ -210,7 +202,7 @@ function answerTimer() {
     }
     else {
       addUser();  
-    };
+    }
 
    //Add users to empty array 
   function addUser() {
@@ -225,7 +217,7 @@ function answerTimer() {
     userDiv.classList.add("flex");
     if (userInput.value.length < 3) {
       userDiv.classList.add("user-class");
-    };
+    }
     userEl.textContent = users + " -- " + score;
 
     //stores username to array, to compare with other users
@@ -253,12 +245,12 @@ function answerTimer() {
       mainEl.children[1].classList.remove("flex");
 
       idle(); 
-    };
+    }
 
     function clearScore() {
       savedUserScores = [];
       userDiv.remove(savedUserScores);
-    };
+    }
 
     var flexDiv = document.createElement("div");
     flexDiv.style.marginTop = "40px";
@@ -266,11 +258,11 @@ function answerTimer() {
     flexDiv.classList.add("flex");
     flexDiv.append(goBack, clearScores);
     mainEl.append(userDiv, flexDiv);
-  };
-};
+  }
+}
 
   buttonEl.children[1].addEventListener("click", results);
-};
+}
 
 idle();
 

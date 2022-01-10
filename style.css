@@ -154,6 +154,11 @@ button {
   margin-right: 100px;
 }
 
+.answer-style {
+  color: hsl(206, 17%, 28%);
+  font-size: 25px;
+}
+
 .sub
 button[disabled] {
   cursor: default;

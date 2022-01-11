@@ -7,8 +7,8 @@ var headerEl = document.getElementById('header');
 var buttonEl = document.getElementById('button');
 var choiceEl = document.createElement("h4");
 var score = 0;
-var timeLeft = 0;
 var correct = "Correct!";
+var timeLeft = 0;
 var wrong = "Wrong!";
 var answerList = document.createElement('ol');
 var i = 0;
@@ -46,7 +46,6 @@ scriptEl.src = "script.js";
 
 //Starting idle screen, used for reiteration
 function idle(){
-  timerEl.textContent = timeLeft + ' seconds remaing.';
   headerEl.textContent = "Press the button to start the quiz!";
   startBtn.textContent = "START!";
   startBtn.addEventListener("click", startGame);
@@ -54,100 +53,100 @@ function idle(){
   flexStart.classList.add("flex", "justify-center");
   flexStart.append(startBtn);
   mainEl.append(flexStart);
+  timerEl.textContent = timeLeft + ' seconds remaing.';  
 }
 
-//Timer function
-//Once a condition for the end game message is met, then displayEndMsg runs
-function timer() {
-  var timeInterval = setInterval(function() {
-     if (timeLeft > 1) {
-      timerEl.textContent = timeLeft + ' seconds remaing.'
-      timeLeft--;
-    }
-    else if (timeLeft === 1) {
-      timerEl.textContent = timeLeft + ' second remaing.'
-      timeLeft--;
-    } 
-    else {
-      clearInterval(timeInterval);
-      buttonEl.removeChild(answerList);
-      displayEndMsg();
-    }
-  }, 1000);
-}
-
-//Try adding eventlisteners before startgame function called.
 function startGame() {
-    startBtn.remove();
-    timeLeft = 60;
-    loadQuestion(i);
-    timer();
     i=0;
     score = 0;
-      
+    timeLeft = 60;
+    timerEl.textContent = timeLeft + ' seconds remaing.';
+    //Timer function
+    //Once a condition for the end game message is met, then displayEndMsg runs
+    var timeInterval = setInterval(function() {
+      if (timeLeft > 1) {
+        timeLeft--;
+        timerEl.textContent = timeLeft + ' seconds remaing.';
+      }
+      else if (timeLeft === 1) {
+        timerEl.textContent = timeLeft + ' second remaing.';
+        timeLeft--;
+      }
+      else if (headerEl.textContent == ("GAME OVER. YOUR SCORE:" + score)) {
+        clearInterval(timeInterval);
+        timerEl.textContent = 0 + ' seconds remaing.';
+      }
+      else if (timeLeft == 0 || timeLeft < 0) {
+        timerEl.textContent = timeLeft + ' second remaing.';
+        clearInterval(timeInterval);
+        displayEndMsg();
+      }
+      else {
+        timerEl.textContent = timeLeft + ' seconds remaing.';
+        clearInterval(timeInterval);
+        displayEndMsg();
+      }
+    }, 1000);
+
+    startBtn.remove();
+    loadQuestion(i);
     //add event listeners to each button to change question and check answer
     //NOTE: the object adding eventlisteners are passed through function called  
     for (var j = 0; j < buttons.length; j++) {
       buttons[j].style.width = "100px";
       buttons[j].addEventListener("click", checkAnswer); 
-    }
+  }
 }  
-
 function loadQuestion(v) {
 
-    //checks for no more questions, if no question detected, user is shown credits page
-    //if question detected, continues with program
-    if(answers[v] === undefined) {
-      buttonEl.removeChild(answerList);
-      displayEndMsg();
-    }
-    else {
-      headerEl.textContent = questions[v];
+headerEl.textContent = questions[v];
+  //checks for no more questions, if no question detected, user is shown credits page
+  //if question detected, continues with program
+  if(answers[v] === undefined) {
+    displayEndMsg();
+  }
+  else {
+      liBtn1.textContent = answers[v][0];
+      liBtn2.textContent = answers[v][1];
+      liBtn3.textContent = answers[v][2];
+      liBtn4.textContent = answers[v][3];
+    
+      li1.appendChild(liBtn1);
+      li2.appendChild(liBtn2);
+      li3.appendChild(liBtn3);
+      li4.appendChild(liBtn4);
 
-        liBtn1.textContent = answers[v][0];
-        liBtn2.textContent = answers[v][1];
-        liBtn3.textContent = answers[v][2];
-        liBtn4.textContent = answers[v][3];
-      
-        li1.appendChild(liBtn1);
-        li2.appendChild(liBtn2);
-        li3.appendChild(liBtn3);
-        li4.appendChild(liBtn4);
-  
-        answerList.append(li1, li2, li3, li4);
-        buttonEl.appendChild(answerList);  
-  };
-    }
-
+      answerList.append(li1, li2, li3, li4);
+      buttonEl.appendChild(answerList);  
+}
+}
 function changeQuestion () {
-    i++;
-    loadQuestion(i);
-} 
-
+  i++;
+  loadQuestion(i);
+}
 //takes button parameter in checkAnswer to pass through specific button if clicked
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
 function checkAnswer(btn) {
-    if (btn.target.textContent == correctAnswers[i]) {
-      choiceEl.textContent = correct;
-      mainEl.appendChild(choiceEl);
-      score++;        
-    }       
-    else {
-        choiceEl.textContent = wrong;
-        mainEl.appendChild(choiceEl);
-        timeLeft = timeLeft - 10;
-    }
-    choiceEl.classList.add("answer-style", "flex", "justify-center");
-    answerTimer();
-    changeQuestion();
-    btn.stopPropagation(); 
+if (btn.target.textContent == correctAnswers[i]) {
+  choiceEl.textContent = correct;
+  mainEl.appendChild(choiceEl);
+  score++;        
+}       
+else {
+    choiceEl.textContent = wrong;
+    mainEl.appendChild(choiceEl);
+    timeLeft = timeLeft - 10;
 }
-
+choiceEl.classList.add("answer-style", "flex", "justify-center");
+answerTimer();
+changeQuestion();
+btn.stopPropagation(); 
+} 
 //Timer function for the checkAnswer result
 function answerTimer() {
   var checkTime = 2;
-  var timeInterval = setInterval(function() {
+  var checkInterval = setInterval(function() {
     if (headerEl.textContent === "") {
       checkTime--; 
     }
@@ -158,25 +157,27 @@ function answerTimer() {
       checkTime--;
     } 
     else {
-      clearInterval(timeInterval);
+      clearInterval(checkInterval);
       choiceEl.remove();
     }
   }, 300);
 }    
 
-  function displayEndMsg() {
+function displayEndMsg() {
   mainEl.children[1].className = "flex";
   answerTimer();
 
   //checks which end card to write
-  if (timeLeft = 0 || timeLeft < 0) {
+  if (timeLeft == 0 || timeLeft < 0) {
     headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
+    timerEl.textContent = 0 + ' seconds remaing.';
+    buttonEl.removeChild(answerList);
   }
   else {
     headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
+    timeLeft = 0;
+    buttonEl.removeChild(answerList);
   }
-  timerEl.textContent = "";
-
   //takes user input for user's initials
   var userInput = document.createElement("input");
   userInput.type = "text";
@@ -197,7 +198,7 @@ function answerTimer() {
       addUser();
     }
     //checks if username is empty or contains any non-letters
-    else if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length > 2) {
+    else if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length != 2) {
       headerEl.textContent = "Please enter your initials(for first and last name only).";
     }
     else {
@@ -237,7 +238,6 @@ function answerTimer() {
     clearScores.textContent = "Clear Highscores";
 
     function back() {
-      timeLeft = 0;
       goBack.remove();
       clearScores.remove();
       userDiv.remove();
@@ -260,7 +260,6 @@ function answerTimer() {
     mainEl.append(userDiv, flexDiv);
   }
 }
-
   buttonEl.children[1].addEventListener("click", results);
 }
 

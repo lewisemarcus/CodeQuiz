@@ -171,16 +171,15 @@ function answerTimer() {
 function displayEndMsg() {
   mainEl.children[1].className = "flex";
   answerTimer();
+  buttonEl.removeChild(answerList);
   //checks which end card to write
   if (timeLeft == 0 || timeLeft < 0) {
     headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
     timerEl.textContent = 0 + ' seconds remaing.';
-    buttonEl.removeChild(answerList);
   }
   else {
     headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
     timeLeft = 0;
-    buttonEl.removeChild(answerList);
   }
   //takes user input for user's initials
   var userInput = document.createElement("input");

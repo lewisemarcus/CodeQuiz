@@ -132,6 +132,7 @@ function changeQuestion () {
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
 function checkAnswer(btn) {
+choiceEl.textContent = "";
 choiceEl.classList.add("answer-style", "flex", "justify-center");
 if (btn.target.textContent == correctAnswers[i]) {
   choiceEl.textContent = correct;
@@ -225,15 +226,16 @@ function displayEndMsg() {
     if (userInput.value.length < 3) {
       userDiv.classList.add("user-class");
     }
+    var br = document.createElement("br");
     userEl.textContent = users + " -- " + score;
+    userEl.appendChild(br);
 
     //stores username to array, to compare with other users
     savedUserScores.push(userEl.textContent);
     userDiv.style.marginTop = "20px";
-    var br = document.createElement("br");
+
     for (var k = 0; k < savedUserScores.length; k++) {
       userDiv.append(savedUserScores[k]);
-      userDiv.appendChild(br);
     }
 
 

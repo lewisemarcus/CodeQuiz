@@ -96,9 +96,9 @@ function startGame() {
       buttons[j].style.width = "100px";
       buttons[j].addEventListener("click", checkAnswer); 
   }
-}  
-function loadQuestion(v) {
+}
 
+function loadQuestion(v) {
 headerEl.textContent = questions[v];
   //checks for no more questions, if no question detected, user is shown credits page
   //if question detected, continues with program
@@ -120,13 +120,16 @@ headerEl.textContent = questions[v];
       buttonEl.appendChild(answerList);  
 }
 }
+
 function changeQuestion () {
   i++;
   loadQuestion(i);
 }
+
 //takes button parameter in checkAnswer to pass through specific button if clicked
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
+
 function checkAnswer(btn) {
 if (btn.target.textContent == correctAnswers[i]) {
   choiceEl.textContent = correct;
@@ -138,11 +141,13 @@ else {
     mainEl.appendChild(choiceEl);
     timeLeft = timeLeft - 10;
 }
+
 choiceEl.classList.add("answer-style", "flex", "justify-center");
 answerTimer();
 changeQuestion();
 btn.stopPropagation(); 
-} 
+}
+
 //Timer function for the checkAnswer result
 function answerTimer() {
   var checkTime = 2;
@@ -166,7 +171,6 @@ function answerTimer() {
 function displayEndMsg() {
   mainEl.children[1].className = "flex";
   answerTimer();
-
   //checks which end card to write
   if (timeLeft == 0 || timeLeft < 0) {
     headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);

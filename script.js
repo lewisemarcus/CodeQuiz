@@ -129,7 +129,6 @@ function changeQuestion () {
 //takes button parameter in checkAnswer to pass through specific button if clicked
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
-
 function checkAnswer(btn) {
 if (btn.target.textContent == correctAnswers[i]) {
   choiceEl.textContent = correct;
@@ -168,6 +167,7 @@ function answerTimer() {
   }, 300);
 }    
 
+//Function that displays end screen
 function displayEndMsg() {
   mainEl.children[1].className = "flex";
   answerTimer();

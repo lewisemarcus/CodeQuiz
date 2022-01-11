@@ -6,6 +6,8 @@ var mainEl = document.getElementById('main');
 var headerEl = document.getElementById('header');
 var buttonEl = document.getElementById('button');
 var choiceEl = document.createElement("h4");
+var pEl = document.createElement("p");
+
 var score = 0;
 var correct = "Correct!";
 var timeLeft = 0;
@@ -37,6 +39,11 @@ liBtn1.setAttribute("name", "choices");
 liBtn2.setAttribute("name", "choices");
 liBtn3.setAttribute("name", "choices");
 liBtn4.setAttribute("name", "choices");
+
+liBtn1.classList.add("choice-format");
+liBtn2.classList.add("choice-format");
+liBtn3.classList.add("choice-format");
+liBtn4.classList.add("choice-format");
 
 //Nodelist of buttons for further use
 var buttons = document.getElementsByName('choices');
@@ -134,47 +141,43 @@ function changeQuestion () {
 function checkAnswer(btn) {
 choiceEl.textContent = "";
 choiceEl.classList.add("answer-style", "flex", "justify-center");
+
 if (btn.target.textContent == correctAnswers[i]) {
   choiceEl.textContent = correct;
   mainEl.appendChild(choiceEl);
-  score++;
-       
+  score++;     
 }       
 else {
     choiceEl.textContent = wrong;
     mainEl.appendChild(choiceEl);
     timeLeft = timeLeft - 10;
-
 }
-answerTimer(); 
+answerTimer();
 changeQuestion();
 btn.stopPropagation(); 
 }
 
 //Timer function for the checkAnswer result
 function answerTimer() {
-  var checkTime = 2;
+  var checkTime = 1;
   var checkInterval = setInterval(function() {
-    if (headerEl.textContent === "") {
-      checkTime--; 
-    }
-    if (checkTime > 1) {
+
+    if (checkTime == 1 || headerEl.textContent === "") {
       checkTime--;
-    }
-    else if (checkTime === 1) {
-      checkTime--;
+      console.log(checkTime);
     } 
     else {
       clearInterval(checkInterval);
       choiceEl.remove();
     }
-  }, 300);
+  }, 500);
+  console.log(checkTime);
 }    
 
 //Function that displays end screen
 function displayEndMsg() {
   mainEl.children[1].className = "flex";
-  answerTimer();
+  
   //checks which end card to write
   if (timeLeft == 0 || timeLeft < 0) {
     headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
@@ -184,6 +187,7 @@ function displayEndMsg() {
     headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
     timeLeft = 0;
   }
+
   //takes user input for user's initials
   var userInput = document.createElement("input");
   userInput.type = "text";
@@ -226,16 +230,17 @@ function displayEndMsg() {
     if (userInput.value.length < 3) {
       userDiv.classList.add("user-class");
     }
-    var br = document.createElement("br");
     userEl.textContent = users + " -- " + score;
-    userEl.appendChild(br);
 
     //stores username to array, to compare with other users
     savedUserScores.push(userEl.textContent);
     userDiv.style.marginTop = "20px";
 
     for (var k = 0; k < savedUserScores.length; k++) {
-      userDiv.append(savedUserScores[k]);
+      var pEl = document.createElement("p");
+      pEl.classList.add("user-name")
+      pEl.append(savedUserScores[k])
+      userDiv.append(pEl);
     }
 
 

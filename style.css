@@ -39,6 +39,8 @@ button {
     background-color: rgb(196, 60, 60);
 }
 
+ol {list-style-type:none;}
+
 .timer {
   text-align: right;
 }
@@ -74,12 +76,30 @@ button {
     height: 2px;
   }
   
-  .quiz-card-footer::after {
+.quiz-card-footer::after {
     content: " ";
     display: block;
     clear: both;
   }
-  .btn {
+
+.choice-format {
+  display: inline-block;
+  border: none;
+  background-color: hsl(360, 91%, 36%);
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+  color: hsl(0, 0%, 100%);
+  display: inline-block;
+  font-size: 22px;
+  line-height: 22px;
+  margin: 2px;
+  margin-left: -35px;
+  padding: 14px 34px;
+  text-align: center;
+  cursor: pointer;
+}
+  
+.btn {
   display: inline-block;
   border: none;
   background-color: hsl(360, 91%, 36%);
@@ -96,7 +116,9 @@ button {
 }
 
 .user-input {
+  padding-left: 13px;
   border: 2px solid #000000;
+  border-radius: 5px;
   width: 200px;
 }
 
@@ -116,10 +138,16 @@ button {
 }
 .user-class {
   text-align: center;
+  flex-direction: column;
   color: hsl(206, 16%, 17%);
   font-size: 18px;
   text-transform: uppercase;
 }
+
+.user-name {
+  border-bottom: 1px solid lightgrey;
+}
+
 .submit-btn {
   display: inline-block;
   width: 250px;

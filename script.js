@@ -53,6 +53,7 @@ function idle(){
   flexStart.classList.add("flex", "justify-center");
   flexStart.append(startBtn);
   mainEl.append(flexStart);
+  timeLeft = 0;
   timerEl.textContent = timeLeft + ' seconds remaing.';  
 }
 
@@ -77,7 +78,7 @@ function startGame() {
         timerEl.textContent = 0 + ' seconds remaing.';
       }
       else if (timeLeft == 0 || timeLeft < 0) {
-        timerEl.textContent = timeLeft + ' second remaing.';
+        timerEl.textContent = 0 + ' second remaing.';
         clearInterval(timeInterval);
         displayEndMsg();
       }
@@ -263,6 +264,7 @@ function displayEndMsg() {
     mainEl.append(userDiv, flexDiv);
   }
 }
+  timerEl.textContent = 0 + ' seconds remaing.';
   buttonEl.children[1].addEventListener("click", results);
 }
 

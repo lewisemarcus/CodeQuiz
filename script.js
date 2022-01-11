@@ -132,19 +132,20 @@ function changeQuestion () {
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
 function checkAnswer(btn) {
+choiceEl.classList.add("answer-style", "flex", "justify-center");
 if (btn.target.textContent == correctAnswers[i]) {
   choiceEl.textContent = correct;
   mainEl.appendChild(choiceEl);
-  score++;        
+  score++;
+       
 }       
 else {
     choiceEl.textContent = wrong;
     mainEl.appendChild(choiceEl);
     timeLeft = timeLeft - 10;
-}
 
-choiceEl.classList.add("answer-style", "flex", "justify-center");
-answerTimer();
+}
+answerTimer(); 
 changeQuestion();
 btn.stopPropagation(); 
 }
@@ -173,7 +174,6 @@ function answerTimer() {
 function displayEndMsg() {
   mainEl.children[1].className = "flex";
   answerTimer();
-  buttonEl.removeChild(answerList);
   //checks which end card to write
   if (timeLeft == 0 || timeLeft < 0) {
     headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
@@ -194,6 +194,7 @@ function displayEndMsg() {
   submitBtn.classList.add("submit-btn");
   submitBtn.textContent = "Submit";
   submitBtn.style.marginTop = "15px";
+  submitBtn.addEventListener("click", results);
   
   buttonEl.classList.add("quiz-card-footer");
   buttonEl.append(userInput, submitBtn);
@@ -229,7 +230,12 @@ function displayEndMsg() {
     //stores username to array, to compare with other users
     savedUserScores.push(userEl.textContent);
     userDiv.style.marginTop = "20px";
-    userDiv.append(savedUserScores.join('\r\n'));
+    var br = document.createElement("br");
+    for (var k = 0; k < savedUserScores.length; k++) {
+      userDiv.append(savedUserScores[k]);
+      userDiv.appendChild(br);
+    }
+
 
     //Add event listeners to goback/clear scores
     var goBack = document.createElement("button");
@@ -266,7 +272,14 @@ function displayEndMsg() {
   }
 }
   timerEl.textContent = 0 + ' seconds remaing.';
-  buttonEl.children[1].addEventListener("click", results);
+  if(buttonEl.contains(answerList)) {
+    buttonEl.removeChild(answerList);
+  }
+  else {
+    headerEl.textContent = "Please enter your initials(for first and last name only).";
+    buttonEl.children[2].remove();
+    buttonEl.children[2].remove();
+  }
 }
 
 idle();

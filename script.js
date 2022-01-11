@@ -60,14 +60,15 @@ function idle(){
 function startGame() {
     i=0;
     score = 0;
-    timeLeft = 60;
-    timerEl.textContent = timeLeft + ' seconds remaing.';
+    timeLeft = 59
+    timerEl.textContent = (timeLeft+1) + ' seconds remaing.';
     //Timer function
     //Once a condition for the end game message is met, then displayEndMsg runs
     var timeInterval = setInterval(function() {
       if (timeLeft > 1) {
-        timeLeft--;
         timerEl.textContent = timeLeft + ' seconds remaing.';
+        timeLeft--;
+        
       }
       else if (timeLeft === 1) {
         timerEl.textContent = timeLeft + ' second remaing.';

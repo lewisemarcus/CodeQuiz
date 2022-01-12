@@ -7,13 +7,15 @@ var headerEl = document.getElementById('header');
 var buttonEl = document.getElementById('button');
 var choiceEl = document.createElement("h4");
 var pEl = document.createElement("p");
-
+var quizFooterEl = document.querySelector('.quiz-card-footer');
+var quizCardEl = document.querySelector('.quiz-card');
 var score = 0;
 var correct = "Correct!";
 var timeLeft = 0;
 var wrong = "Wrong!";
 var answerList = document.createElement('ol');
 var i = 0;
+var gamesPlayed = 0;
 
 //from answers, create li elements and 
 //append to an unordered list depending on question
@@ -57,14 +59,22 @@ function idle(){
   startBtn.textContent = "START!";
   startBtn.addEventListener("click", startGame);
   var flexStart = document.createElement("div");
-  flexStart.classList.add("flex", "justify-center");
+  flexStart.classList.add("flex", "justify-center", "margin-top");
   flexStart.append(startBtn);
   mainEl.append(flexStart);
   timeLeft = 0;
   timerEl.textContent = timeLeft + ' seconds remaing.';  
+  if (gamesPlayed != 0) {
+    console.log(mainEl.children.length);
+    for (var p = 1; p < (mainEl.children.length) - 1; p++) {
+      mainEl.children[p].remove();
+    }
+    mainEl.children[1].remove();
+  }
 }
 
 function startGame() {
+  quizCardEl.append(quizFooterEl);
     i=0;
     score = 0;
     timeLeft = 59
@@ -105,6 +115,7 @@ function startGame() {
       buttons[j].style.width = "100px";
       buttons[j].addEventListener("click", checkAnswer); 
   }
+  gamesPlayed++;
 }
 
 function loadQuestion(v) {
@@ -164,14 +175,12 @@ function answerTimer() {
 
     if (checkTime == 1 || headerEl.textContent === "") {
       checkTime--;
-      console.log(checkTime);
     } 
     else {
       clearInterval(checkInterval);
       choiceEl.remove();
     }
   }, 500);
-  console.log(checkTime);
 }    
 
 //Function that displays end screen
@@ -226,11 +235,12 @@ function displayEndMsg() {
     
     var userEl = document.createElement("div");
     var userDiv = document.createElement("div");
+    var allUsersDiv = document.createElement("div");
     userDiv.classList.add("flex");
     if (userInput.value.length < 3) {
-      userDiv.classList.add("user-class");
+      quizFooterEl.classList.add("user-class");
     }
-    userEl.textContent = users + " -- " + score;
+    userEl.textContent = users + " — " + score;
 
     //stores username to array, to compare with other users
     savedUserScores.push(userEl.textContent);
@@ -238,11 +248,11 @@ function displayEndMsg() {
 
     for (var k = 0; k < savedUserScores.length; k++) {
       var pEl = document.createElement("p");
-      pEl.classList.add("user-name")
-      pEl.append(savedUserScores[k])
-      userDiv.append(pEl);
+      pEl.classList.add("user-name");
+      pEl.append(savedUserScores[k]);
+      allUsersDiv.append(pEl);
+      quizFooterEl.append(allUsersDiv);
     }
-
 
     //Add event listeners to goback/clear scores
     var goBack = document.createElement("button");
@@ -258,11 +268,11 @@ function displayEndMsg() {
     function back() {
       goBack.remove();
       clearScores.remove();
-      userDiv.remove();
+      allUsersDiv.remove();
       flexDiv.style.marginTop = "0px";
       mainEl.children[1].classList.remove("flex");
+      idle();
 
-      idle(); 
     }
 
     function clearScore() {

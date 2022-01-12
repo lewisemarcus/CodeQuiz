@@ -115,7 +115,12 @@ ol {list-style-type:none;}
   cursor: pointer;
 }
 
+.margin-top {
+  margin-top: 40px;
+}
 .user-input {
+  padding-top: 14px;
+  padding-bottom: 5px;
   padding-left: 13px;
   border: 2px solid #000000;
   border-radius: 5px;

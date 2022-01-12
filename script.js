@@ -278,6 +278,7 @@ function displayEndMsg() {
     function clearScore() {
       savedUserScores = [];
       userDiv.remove(savedUserScores);
+      allUsersDiv.remove();
     }
 
     var flexDiv = document.createElement("div");

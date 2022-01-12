@@ -271,6 +271,7 @@ function displayEndMsg() {
       allUsersDiv.remove();
       flexDiv.style.marginTop = "0px";
       mainEl.children[1].classList.remove("flex");
+      userDiv.remove(savedUserScores);
       idle();
 
     }

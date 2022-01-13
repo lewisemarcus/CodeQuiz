@@ -76,7 +76,7 @@ var headerTag = document.getElementsByTagName('header');
 var viewHighscores = document.createElement("button");
 viewHighscores.addEventListener("click", viewScores);
 viewHighscores.textContent = "View Highscores";
-viewHighscores.classList.add("btn")
+viewHighscores.classList.add("btn");
 headerTag[0].append(viewHighscores);
 
 //For later use with adding and storing usernames

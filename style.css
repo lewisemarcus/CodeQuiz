@@ -35,11 +35,9 @@ button {
   background-color: hsl(360, 91%, 36%);
 }
 
-  button:hover {
-    background-color: rgb(196, 60, 60);
+ol {
+  list-style-type:none;
 }
-
-ol {list-style-type:none;}
 
 .timer {
   text-align: right;
@@ -66,14 +64,14 @@ ol {list-style-type:none;}
 
   .quiz-card-footer {
     text-align: center;
+    margin-left: 200px;
+    margin-right: 200px;
   }
   
   .quiz-card-footer::before {
     content: " ";
     display: block;
     width: 100%;
-    background: #e7e9eb;
-    height: 2px;
   }
   
 .quiz-card-footer::after {
@@ -84,23 +82,29 @@ ol {list-style-type:none;}
 
 .choice-format {
   display: inline-block;
+  font-weight: bolder;
+  text-align: left;
+  width: 100%;
   border: none;
   background-color: hsl(360, 91%, 36%);
   border-radius: 25px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
   color: hsl(0, 0%, 100%);
-  display: inline-block;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 22px;
-  margin: 2px;
+  margin: 5px;
   margin-left: -35px;
-  padding: 14px 34px;
-  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
   cursor: pointer;
 }
-  
+
+.choice-format:hover {
+  background-color: rgb(196, 60, 60);
+}
+
 .btn {
-  display: inline-block;
   border: none;
   background-color: hsl(360, 91%, 36%);
   border-radius: 25px;
@@ -113,6 +117,10 @@ ol {list-style-type:none;}
   padding: 14px 34px;
   text-align: center;
   cursor: pointer;
+}
+
+.btn:hover {
+  background-color: rgb(196, 60, 60);
 }
 
 .margin-top {

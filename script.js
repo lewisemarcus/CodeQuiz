@@ -9,7 +9,6 @@ var quizFooterEl = document.querySelector('.quiz-card-footer');
 var quizCardEl = document.querySelector('.quiz-card');
 var addedUser = 0;
 
-var score = 0;
 var correct = "Correct!";
 var timeLeft = 0;
 var wrong = "Wrong!";
@@ -20,15 +19,23 @@ var users = [];
 var viewScoreClick = 0;
 var changeClick = 0;
 var clearUsers = 0;
+var noMoreQuestions = 0;
 
 //from answers, create li elements and 
 //append to an unordered list depending on question
 //in answers, create array of answers within array
-var questions = ["What is 1+1?", "What is 2+2?","3+3","4+4?","5+5?", "6+6", "7+7","8+8"];
-var answers = [["2","3","6","9"],["1","4","8","3"],["4","8","6","10"],
-              ["1","4","8","3"],["4","8","6","10"],["8","11","12","3"], 
-              ["8","11","12","14"], ["16","11","12","14"]];
-var correctAnswers = ["2","4","6","8","10","12","14", "16"];
+var questions = ["Commonly used data types do not include:", 
+                "The condition in an if / else statement is enclosed within ______. ",
+                "Arrays in JavaScript can be used to store ______.",
+                "String values must be enclosed within ______ when being assigned to variables",
+                "A very useful tool for used during development and debugging for printing content to the debugger is:"]
+var answers = [["strings","booleans","alerts","numbers"],
+              ["quotes","curly brackets","parantheses","square brackets"],
+              ["numbers and strings","other arrays","booleans","all of the above"],
+              ["commas","curly brackets","quotes","parantheses"],
+              ["JavaScript","terminal / bash","for loops","console log"]]
+             
+var correctAnswers = ["alerts","parantheses","all of the above","quotes","console log"];
 var savedUserScores = [];
   
 var li1 = document.createElement("li");
@@ -36,20 +43,15 @@ var li2 = document.createElement("li");
 var li3 = document.createElement("li");
 var li4 = document.createElement("li");
 
-var liBtn1 = document.createElement("button");
-var liBtn2 = document.createElement("button");
-var liBtn3 = document.createElement("button");
-var liBtn4 = document.createElement("button");
+li1.setAttribute("name", "choices");
+li2.setAttribute("name", "choices");
+li3.setAttribute("name", "choices");
+li4.setAttribute("name", "choices");
 
-liBtn1.setAttribute("name", "choices");
-liBtn2.setAttribute("name", "choices");
-liBtn3.setAttribute("name", "choices");
-liBtn4.setAttribute("name", "choices");
-
-liBtn1.classList.add("choice-format");
-liBtn2.classList.add("choice-format");
-liBtn3.classList.add("choice-format");
-liBtn4.classList.add("choice-format");
+li1.classList.add("choice-format");
+li2.classList.add("choice-format");
+li3.classList.add("choice-format");
+li4.classList.add("choice-format");
 
 //Nodelist of buttons for further use
 var buttons = document.getElementsByName('choices');
@@ -106,9 +108,12 @@ function idle(){
 }
 
 function startGame() {
+  noMoreQuestions = 0;
+  if (gamesPlayed > 0) {
+    buttonEl.classList.remove("user-class");
+  }
   quizCardEl.append(quizFooterEl);
     i=0;
-    score = 0;
     timeLeft = 59
     timerEl.textContent = (timeLeft+1) + ' seconds remaing.';
     //Timer function
@@ -122,10 +127,6 @@ function startGame() {
         timerEl.textContent = timeLeft + ' second remaing.';
         timeLeft--;
       }
-      else if (headerEl.textContent == ("GAME OVER. YOUR SCORE:" + score)) {
-        clearInterval(timeInterval);
-        timerEl.textContent = 0 + ' seconds remaing.';
-      }
       else if (timeLeft == 0 || timeLeft < 0) {
         timerEl.textContent = 0 + ' second remaing.';
         clearInterval(timeInterval);
@@ -135,6 +136,9 @@ function startGame() {
         timerEl.textContent = timeLeft + ' seconds remaing.';
         clearInterval(timeInterval);
         displayEndMsg();
+      }
+      if (noMoreQuestions == 1) {    
+        clearInterval(timeInterval);
       }
       if (viewScoreClick == 1) {
         buttonEl.removeChild(answerList);
@@ -149,7 +153,6 @@ function startGame() {
     //add event listeners to each button to change question and check answer
     //NOTE: the object adding eventlisteners are passed through function called  
     for (var j = 0; j < buttons.length; j++) {
-      buttons[j].style.width = "100px";
       buttons[j].addEventListener("click", checkAnswer); 
   }
   gamesPlayed++;
@@ -161,18 +164,14 @@ headerEl.textContent = questions[v];
   //checks for no more questions, if no question detected, user is shown credits page
   //if question detected, continues with program
   if(answers[v] === undefined) {
+    noMoreQuestions = 1;
     displayEndMsg();
   }
   else {
-    liBtn1.textContent = answers[v][0];
-    liBtn2.textContent = answers[v][1];
-    liBtn3.textContent = answers[v][2];
-    liBtn4.textContent = answers[v][3];
-    
-    li1.appendChild(liBtn1);
-    li2.appendChild(liBtn2);
-    li3.appendChild(liBtn3);
-    li4.appendChild(liBtn4);
+    li1.textContent = answers[v][0];
+    li2.textContent = answers[v][1];
+    li3.textContent = answers[v][2];
+    li4.textContent = answers[v][3];
 
     answerList.append(li1, li2, li3, li4);
     buttonEl.appendChild(answerList);  
@@ -193,8 +192,7 @@ function checkAnswer(btn) {
 
   if (btn.target.textContent == correctAnswers[i]) {
     choiceEl.textContent = correct;
-    mainEl.appendChild(choiceEl);
-    score++;     
+    mainEl.appendChild(choiceEl);  
   }       
   else {
     choiceEl.textContent = wrong;
@@ -228,26 +226,24 @@ function answerTimer() {
 function displayEndMsg() {
   userInput.value = "";
   mainEl.children[1].className = "flex";
-  
+  timerEl.textContent = timeLeft + ' seconds remaing.';
   //checks which end card to write
-  if (timeLeft == 0 || timeLeft < 0) {
-    headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + score);
+  if ((timeLeft == 0 || timeLeft < 0) && noMoreQuestions == 1) {
+    headerEl.textContent = ("GAME OVER. YOUR SCORE:" + 0);
+    timerEl.textContent = 0 + ' seconds remaing.';
+  }
+  else if ((timeLeft < 0 || timeLeft == 0) && noMoreQuestions == 0) {
+    headerEl.textContent = ("TIME IS UP. YOUR SCORE:" + 0);
     timerEl.textContent = 0 + ' seconds remaing.';
   }
   else {
-    headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
-    timeLeft = 0;
+    headerEl.textContent = ("GAME OVER. YOUR SCORE:" + timeLeft);
   }
   
   buttonEl.append(userInput, submitBtn);
-  
-  timerEl.textContent = 0 + ' seconds remaing.';
   if(buttonEl.contains(answerList)) {
     buttonEl.removeChild(answerList);
-  }
-  else {
-    headerEl.textContent = "Please enter your initials(for first and last name only).";
-  }
+  } 
 }
 
 function results() {
@@ -274,8 +270,13 @@ function addUser() {
   if (userInput.value.length < 3) {
     quizFooterEl.classList.add("user-class");
   }
-  pEl.textContent = users + " — " + score;
-
+  if(timeLeft < 0) {
+    pEl.textContent = users + " — " + 0;
+  }
+  else {
+    pEl.textContent = users + " — " + (timeLeft + 1);
+  }
+  
   //stores username to array, to compare with other users
   savedUserScores.push(pEl);
   userDiv.style.marginTop = "20px";

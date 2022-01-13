@@ -18,7 +18,7 @@ WHEN the game is over
 THEN the user can also clear saved scores or go back and restart the quiz
 ```
 
-![Image of Code Quiz Start page](https://i.imgur.com/R8VA2zs.png)
+![Image of Code Quiz Start page](https://i.imgur.com/uZ8y3tz.png)
 
 
 [Click Here to try the Quiz!](https://lewisemarcus.github.io/CodeQuiz/)

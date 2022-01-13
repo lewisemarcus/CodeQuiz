@@ -7,7 +7,6 @@ var choiceEl = document.createElement("h4");
 var pEl = document.createElement("p");
 var quizFooterEl = document.querySelector('.quiz-card-footer');
 var quizCardEl = document.querySelector('.quiz-card');
-var addedUser = 0;
 
 var correct = "Correct!";
 var timeLeft = 0;
@@ -20,6 +19,7 @@ var viewScoreClick = 0;
 var changeClick = 0;
 var clearUsers = 0;
 var noMoreQuestions = 0;
+var addedUser = 0;
 
 //from answers, create li elements and 
 //append to an unordered list depending on question
@@ -68,7 +68,6 @@ submitBtn.classList.add("submit-btn");
 submitBtn.textContent = "Submit";
 submitBtn.style.marginTop = "15px";
 submitBtn.addEventListener("click", results);
-
 
 var headerTag = document.getElementsByTagName('header');
 
@@ -194,12 +193,12 @@ function checkAnswer(btn) {
   if (btn.target.textContent == correctAnswers[i]) {
     choiceEl.textContent = correct;
     answerDiv.append(choiceEl);
-    mainEl.appendChild(answerDiv);  
+    quizFooterEl.after(answerDiv);  
   }       
   else {
     choiceEl.textContent = wrong;
     answerDiv.append(choiceEl);
-    mainEl.appendChild(answerDiv);
+    quizFooterEl.after(answerDiv);
     timeLeft = timeLeft - 10;
   }
   answerTimer();
@@ -347,19 +346,7 @@ function viewScores() {
 }
 
 idle();
-
-//Click start, then timer starts and question displays DONE
-//Display answer choices below question DONE
-//Highlight answer choice on hover DONE
-//Display 'Wrong!' or 'Correct!' once answered DONE
-//If wrong, reduce by 10 seconds DONE
-//If correct, tally score DONE
-//When questions are done, or timer = 0, display submit page DONE
-//On scoreboard, allow player entry for highscore DONE
-//After player enters name, display name and highscore DONE
-
-
 //NOTE: In javascript, to set a CSS class to newly created item:
 //use "yourVariable".className = "css-class-name"
-//NOTE: remove() deletes for the rest of the code
+//NOTE: remove() deletes each element
 //NOTE: while loops already exist within functions(will keep running until if condition breaks)

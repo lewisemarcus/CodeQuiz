@@ -30,6 +30,17 @@ header {
     color: hsl(206, 17%, 28%);
   }
 
+footer {
+font-family: 'Space Mono', Courier, monospace;
+width: 100%;
+position: sticky;
+background-color: hsl(0, 0%, 100%);
+color: hsl(206, 17%, 28%);
+text-align: center;
+bottom: 0;
+z-index: 9;
+}
+
 button {
   font-weight: bolder;
   background-color: hsl(360, 91%, 36%);

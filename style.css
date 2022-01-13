@@ -43,6 +43,9 @@ ol {
   text-align: right;
 }
   .quiz-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     text-align: center;
     background-color: hsl(0, 0%, 100%);
     border-radius: 5px;
@@ -80,11 +83,15 @@ ol {
     clear: both;
   }
 
+.column {
+  flex-direction: column;
+} 
+
 .choice-format {
-  display: inline-block;
+  display: flex;
   font-weight: bolder;
   text-align: left;
-  width: 100%;
+  width: 300px;
   border: none;
   background-color: hsl(360, 91%, 36%);
   border-radius: 25px;
@@ -159,6 +166,7 @@ ol {
 
 .user-name {
   border-bottom: 1px solid lightgrey;
+  text-transform: uppercase;
 }
 
 .submit-btn {

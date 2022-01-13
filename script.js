@@ -100,6 +100,7 @@ function idle(){
   timeLeft = 0;
   timerEl.textContent = timeLeft + ' seconds remaing.';  
   if (gamesPlayed != 0) {
+    quizCardEl.classList.remove("column");
     for (var p = 1; p < (mainEl.children.length) - 1; p++) {
       mainEl.children[p].remove();
     }
@@ -315,6 +316,7 @@ function clearScore() {
   clearUsers = 1;
 }
 
+
 function viewScores() {
   viewScoreClick = 1;
   headerEl.textContent = "Highscores";
@@ -323,6 +325,9 @@ function viewScores() {
   userInput.remove();
   allUsersDiv.append(pEl);
   quizFooterEl.append(allUsersDiv);
+
+  buttonEl.classList.remove("quiz-card-footer");
+  quizCardEl.classList.add("column");
 
   //Add event listeners to goback/clear scores
   goBack.addEventListener("click", back);

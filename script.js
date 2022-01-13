@@ -95,6 +95,10 @@ var flexStart = document.createElement("div");
 
 //Starting idle screen, used for reiteration
 function idle(){
+  if (gamesPlayed > 0) {
+    buttonEl.classList.remove("user-class");
+    quizCardEl.classList.remove("column");
+  }
   headerEl.textContent = "Press the button to start the quiz!";
   startBtn.textContent = "START!";
   startBtn.addEventListener("click", startGame);
@@ -109,9 +113,6 @@ function idle(){
 
 function startGame() {
   noMoreQuestions = 0;
-  if (gamesPlayed > 0) {
-    buttonEl.classList.remove("user-class");
-  }
   quizCardEl.append(quizFooterEl);
   i=0;
   timeLeft = 59
@@ -316,7 +317,6 @@ function clearScore() {
   pEl.classList.remove("user-name");
   clearUsers = 1;
 }
-
 
 function viewScores() {
   viewScoreClick = 1;

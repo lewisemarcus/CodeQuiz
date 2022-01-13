@@ -1,5 +1,3 @@
-//TODO: make right/wrong disappear shortly after
-
 var startBtn = document.querySelector("#start");
 var timerEl = document.getElementById('timer');
 var mainEl = document.getElementById('main');
@@ -9,6 +7,8 @@ var choiceEl = document.createElement("h4");
 var pEl = document.createElement("p");
 var quizFooterEl = document.querySelector('.quiz-card-footer');
 var quizCardEl = document.querySelector('.quiz-card');
+var addedUser = 0;
+
 var score = 0;
 var correct = "Correct!";
 var timeLeft = 0;
@@ -16,6 +16,10 @@ var wrong = "Wrong!";
 var answerList = document.createElement('ol');
 var i = 0;
 var gamesPlayed = 0;
+var users = [];
+var viewScoreClick = 0;
+var changeClick = 0;
+var clearUsers = 0;
 
 //from answers, create li elements and 
 //append to an unordered list depending on question
@@ -50,8 +54,37 @@ liBtn4.classList.add("choice-format");
 //Nodelist of buttons for further use
 var buttons = document.getElementsByName('choices');
 
-var scriptEl = document.createElement('script');
-scriptEl.src = "script.js";
+//takes user input for user's initials
+var userInput = document.createElement("input");
+userInput.type = "text";
+userInput.classList.add("user-input");
+userInput.placeholder = "Enter initials...";
+userInput.style.marginTop = "15px";
+
+var submitBtn = document.createElement("button");
+submitBtn.classList.add("submit-btn");
+submitBtn.textContent = "Submit";
+submitBtn.style.marginTop = "15px";
+submitBtn.addEventListener("click", results);
+buttonEl.classList.add("quiz-card-footer");
+
+var headerTag = document.getElementsByTagName('header');
+
+//Button to view High Scores
+var viewHighscores = document.createElement("button");
+viewHighscores.addEventListener("click", viewScores);
+viewHighscores.textContent = "View Highscores";
+viewHighscores.classList.add("btn")
+headerTag[0].append(viewHighscores);
+
+//For later use with adding and storing usernames
+var userEl = document.createElement("div");
+var userDiv = document.createElement("div");
+var allUsersDiv = document.createElement("div");
+
+var goBack = document.createElement("button");
+var clearScores = document.createElement("button");
+var flexDiv = document.createElement("div");
 
 //Starting idle screen, used for reiteration
 function idle(){
@@ -65,7 +98,6 @@ function idle(){
   timeLeft = 0;
   timerEl.textContent = timeLeft + ' seconds remaing.';  
   if (gamesPlayed != 0) {
-    console.log(mainEl.children.length);
     for (var p = 1; p < (mainEl.children.length) - 1; p++) {
       mainEl.children[p].remove();
     }
@@ -84,8 +116,7 @@ function startGame() {
     var timeInterval = setInterval(function() {
       if (timeLeft > 1) {
         timerEl.textContent = timeLeft + ' seconds remaing.';
-        timeLeft--;
-        
+        timeLeft--;      
       }
       else if (timeLeft === 1) {
         timerEl.textContent = timeLeft + ' second remaing.';
@@ -105,6 +136,12 @@ function startGame() {
         clearInterval(timeInterval);
         displayEndMsg();
       }
+      if (viewScoreClick == 1) {
+        buttonEl.removeChild(answerList);
+        choiceEl.remove();
+        timerEl.textContent = 0 + ' seconds remaing.';
+        clearInterval(timeInterval);
+      }
     }, 1000);
 
     startBtn.remove();
@@ -116,6 +153,7 @@ function startGame() {
       buttons[j].addEventListener("click", checkAnswer); 
   }
   gamesPlayed++;
+  changeClick = 0;
 }
 
 function loadQuestion(v) {
@@ -126,57 +164,60 @@ headerEl.textContent = questions[v];
     displayEndMsg();
   }
   else {
-      liBtn1.textContent = answers[v][0];
-      liBtn2.textContent = answers[v][1];
-      liBtn3.textContent = answers[v][2];
-      liBtn4.textContent = answers[v][3];
+    liBtn1.textContent = answers[v][0];
+    liBtn2.textContent = answers[v][1];
+    liBtn3.textContent = answers[v][2];
+    liBtn4.textContent = answers[v][3];
     
-      li1.appendChild(liBtn1);
-      li2.appendChild(liBtn2);
-      li3.appendChild(liBtn3);
-      li4.appendChild(liBtn4);
+    li1.appendChild(liBtn1);
+    li2.appendChild(liBtn2);
+    li3.appendChild(liBtn3);
+    li4.appendChild(liBtn4);
 
-      answerList.append(li1, li2, li3, li4);
-      buttonEl.appendChild(answerList);  
-}
+    answerList.append(li1, li2, li3, li4);
+    buttonEl.appendChild(answerList);  
+  }
 }
 
 function changeQuestion () {
   i++;
   loadQuestion(i);
+  changeClick = 1;
 }
 
 //takes button parameter in checkAnswer to pass through specific button if clicked
 //adds score if corrects, reduces time if incorrect
 //Changes question after score/time affected
 function checkAnswer(btn) {
-choiceEl.textContent = "";
-choiceEl.classList.add("answer-style", "flex", "justify-center");
+  choiceEl.classList.add("answer-style", "flex", "justify-center");
 
-if (btn.target.textContent == correctAnswers[i]) {
-  choiceEl.textContent = correct;
-  mainEl.appendChild(choiceEl);
-  score++;     
-}       
-else {
+  if (btn.target.textContent == correctAnswers[i]) {
+    choiceEl.textContent = correct;
+    mainEl.appendChild(choiceEl);
+    score++;     
+  }       
+  else {
     choiceEl.textContent = wrong;
     mainEl.appendChild(choiceEl);
     timeLeft = timeLeft - 10;
-}
-answerTimer();
-changeQuestion();
-btn.stopPropagation(); 
+  }
+  answerTimer();
+  changeQuestion();
+  btn.stopPropagation(); 
 }
 
 //Timer function for the checkAnswer result
 function answerTimer() {
   var checkTime = 1;
   var checkInterval = setInterval(function() {
-
-    if (checkTime == 1 || headerEl.textContent === "") {
+    if (checkTime == 1) {
       checkTime--;
     } 
     else {
+      clearInterval(checkInterval);
+      choiceEl.remove();
+    }
+    if (changeClick == 1) {
       clearInterval(checkInterval);
       choiceEl.remove();
     }
@@ -185,6 +226,7 @@ function answerTimer() {
 
 //Function that displays end screen
 function displayEndMsg() {
+  userInput.value = "";
   mainEl.children[1].className = "flex";
   
   //checks which end card to write
@@ -196,109 +238,105 @@ function displayEndMsg() {
     headerEl.textContent = ("GAME OVER. YOUR SCORE:" + score);
     timeLeft = 0;
   }
-
-  //takes user input for user's initials
-  var userInput = document.createElement("input");
-  userInput.type = "text";
-  userInput.classList.add("user-input");
-  userInput.placeholder = "Enter initials...";
-  userInput.style.marginTop = "15px";
-
-  var submitBtn = document.createElement("button");
-  submitBtn.classList.add("submit-btn");
-  submitBtn.textContent = "Submit";
-  submitBtn.style.marginTop = "15px";
-  submitBtn.addEventListener("click", results);
   
-  buttonEl.classList.add("quiz-card-footer");
   buttonEl.append(userInput, submitBtn);
   
-  function results() {
-    if (userInput.value == "Rejean My Love <3") {
-      addUser();
-    }
-    //checks if username is empty or contains any non-letters
-    else if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length != 2) {
-      headerEl.textContent = "Please enter your initials(for first and last name only).";
-    }
-    else {
-      addUser();  
-    }
-
-   //Add users to empty array 
-  function addUser() {
-    headerEl.textContent = "Highscores";
-    submitBtn.remove();
-    userInput.remove();
-    var users = [];
-    users.push(userInput.value);
-    
-    var userEl = document.createElement("div");
-    var userDiv = document.createElement("div");
-    var allUsersDiv = document.createElement("div");
-    userDiv.classList.add("flex");
-    if (userInput.value.length < 3) {
-      quizFooterEl.classList.add("user-class");
-    }
-    userEl.textContent = users + " — " + score;
-
-    //stores username to array, to compare with other users
-    savedUserScores.push(userEl.textContent);
-    userDiv.style.marginTop = "20px";
-
-    for (var k = 0; k < savedUserScores.length; k++) {
-      var pEl = document.createElement("p");
-      pEl.classList.add("user-name");
-      pEl.append(savedUserScores[k]);
-      allUsersDiv.append(pEl);
-      quizFooterEl.append(allUsersDiv);
-    }
-
-    //Add event listeners to goback/clear scores
-    var goBack = document.createElement("button");
-    goBack.addEventListener("click", back);
-    goBack.className = "goBack-clearScore-btn";
-    goBack.textContent = "Go Back";
-
-    var clearScores = document.createElement("button");
-    clearScores.addEventListener("click", clearScore);
-    clearScores.className = "goBack-clearScore-btn";
-    clearScores.textContent = "Clear Highscores";
-
-    function back() {
-      goBack.remove();
-      clearScores.remove();
-      allUsersDiv.remove();
-      flexDiv.style.marginTop = "0px";
-      mainEl.children[1].classList.remove("flex");
-      userDiv.remove(savedUserScores);
-      idle();
-
-    }
-
-    function clearScore() {
-      savedUserScores = [];
-      userDiv.remove(savedUserScores);
-      allUsersDiv.remove();
-    }
-
-    var flexDiv = document.createElement("div");
-    flexDiv.style.marginTop = "40px";
-    flexDiv.style.marginLeft = "80px";
-    flexDiv.classList.add("flex");
-    flexDiv.append(goBack, clearScores);
-    mainEl.append(userDiv, flexDiv);
-  }
-}
   timerEl.textContent = 0 + ' seconds remaing.';
   if(buttonEl.contains(answerList)) {
     buttonEl.removeChild(answerList);
   }
   else {
     headerEl.textContent = "Please enter your initials(for first and last name only).";
-    buttonEl.children[2].remove();
-    buttonEl.children[2].remove();
   }
+}
+
+function results() {
+  if (userInput.value == "Rejean My Love <3") {
+    addUser();
+  }
+  //checks if username is empty or contains any non-letters
+  else if (userInput.value == ""|| !/^[a-zA-Z]+$/.test(userInput.value) || userInput.value.length != 2) {
+    headerEl.textContent = "Please enter your initials(for first and last name only).";
+  }
+  else {
+    addUser();  
+  }
+}
+
+//Add users to empty array 
+function addUser() {
+   if (addedUser == 1) {
+     users = [];
+   }
+  var pEl = document.createElement("p");
+  users.push(userInput.value);
+  userDiv.classList.add("flex");
+  if (userInput.value.length < 3) {
+    quizFooterEl.classList.add("user-class");
+  }
+  pEl.textContent = users + " — " + score;
+
+  //stores username to array, to compare with other users
+  savedUserScores.push(pEl);
+  userDiv.style.marginTop = "20px";
+  for (var k = 0; k < savedUserScores.length; k++) {
+    pEl.classList.add("user-name");
+    userEl.append(savedUserScores[k]); 
+  }
+  userEl.setAttribute("id", "user-div");
+  allUsersDiv.append(userEl);
+  quizFooterEl.append(allUsersDiv);
+  viewScores();
+  addedUser = 1;
+}
+
+function back() {
+  goBack.remove();
+  clearScores.remove();
+  allUsersDiv.remove();
+  flexDiv.style.marginTop = "0px";
+  mainEl.children[1].classList.remove("flex");
+  userDiv.remove(savedUserScores);
+  viewScoreClick = 0;
+  idle();
+}
+
+//Removes children from userEl(contains all <p> elements) and creates uniform format
+function clearScore() {
+  for (var h = 0; h < userEl.children.length; h++) {
+    userEl.children[h].remove();
+    allUsersDiv.children[h].textContent = "";
+    allUsersDiv.children[h].classList.remove("user-name");
+  }
+  savedUserScores = [];
+  users = [];
+  pEl.classList.remove("user-name");
+  clearUsers = 1;
+}
+
+function viewScores() {
+  viewScoreClick = 1;
+  headerEl.textContent = "Highscores";
+  startBtn.remove();
+  submitBtn.remove();
+  userInput.remove();
+  allUsersDiv.append(pEl);
+  quizFooterEl.append(allUsersDiv);
+
+  //Add event listeners to goback/clear scores
+  goBack.addEventListener("click", back);
+  goBack.className = "goBack-clearScore-btn";
+  goBack.textContent = "Go Back";
+
+  clearScores.addEventListener("click", clearScore);
+  clearScores.className = "goBack-clearScore-btn";
+  clearScores.textContent = "Clear Highscores";
+
+  flexDiv.style.marginTop = "40px";
+  flexDiv.style.marginLeft = "80px";
+  flexDiv.classList.add("flex");
+  flexDiv.append(goBack, clearScores);
+  mainEl.append(userDiv, flexDiv);
 }
 
 idle();

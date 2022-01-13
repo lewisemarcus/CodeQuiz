@@ -90,6 +90,9 @@ var clearScores = document.createElement("button");
 var flexDiv = document.createElement("div");
 
 var flexStart = document.createElement("div");
+var textEl = document.createElement("p");
+textEl.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by 10 seconds!";
+textEl.classList.add("text-element");
 
 
 //Starting idle screen, used for reiteration
@@ -107,10 +110,12 @@ function idle(){
   timeLeft = 0;
   timerEl.textContent = timeLeft + ' seconds remaing.';
   buttonEl.classList.add("quiz-card-footer");  
+  quizFooterEl.append(textEl);
   
 }
 
 function startGame() {
+  textEl.remove();
   noMoreQuestions = 0;
   quizCardEl.append(quizFooterEl);
   i=0;

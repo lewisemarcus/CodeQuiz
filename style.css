@@ -15,6 +15,7 @@ body,
 body {
   font-family: sans-serif;
   background-color: #f9fbfd;
+  min-height: 400px;
 }
 
 .wrapper {
@@ -69,6 +70,7 @@ ol {
     font-size: 18px;
     margin: 0 auto;
     max-width: 800px;
+
     padding: 30px 40px;
   }
   .quiz-card-header::after {
@@ -101,6 +103,10 @@ ol {
   flex-direction: column;
 } 
 
+.text-element {
+  margin-left: -100px;
+  margin-right: -100px;
+}
 .choice-format {
   display: flex;
   font-weight: bolder;
@@ -134,7 +140,6 @@ ol {
   display: inline-block;
   font-size: 22px;
   line-height: 22px;
-  margin: 16px 16px 16px 20px;
   padding: 14px 34px;
   text-align: center;
   cursor: pointer;

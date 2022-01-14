@@ -101,6 +101,9 @@ function idle(){
     buttonEl.classList.remove("user-class");
     quizCardEl.classList.remove("column");
   }
+  if(viewScoreClick == 1) {
+    quizCardEl.classList.remove("column");
+  }
   headerEl.textContent = "Press the button to start the quiz!";
   startBtn.textContent = "START!";
   startBtn.addEventListener("click", startGame);
@@ -111,7 +114,7 @@ function idle(){
   timerEl.textContent = timeLeft + ' seconds remaing.';
   buttonEl.classList.add("quiz-card-footer");  
   quizFooterEl.append(textEl);
-  
+  viewScoreClick = 0;
 }
 
 function startGame() {
@@ -305,7 +308,6 @@ function back() {
   flexDiv.style.marginTop = "0px";
   mainEl.children[1].classList.remove("flex");
   userDiv.remove(savedUserScores);
-  viewScoreClick = 0;
   idle();
 }
 

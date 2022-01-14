@@ -323,6 +323,7 @@ function clearScore() {
 }
 
 function viewScores() {
+  textEl.remove();
   viewScoreClick = 1;
   headerEl.textContent = "Highscores";
   startBtn.remove();
